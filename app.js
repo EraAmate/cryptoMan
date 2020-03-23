@@ -41,11 +41,15 @@ function set() {
 }
 
 function unset() {
-  let passwordsJSON = fs.readFileSync("db.json", "utf8");
-  let passwords = JSON.parse(passwordsJSON);
-  console.log(passwords);
-  delete passwords[key];
-  console.log(passwords);
+  console.log("Called SET", key, value);
+  try {
+    let passwordsJSON = fs.readFileSync("db.json", "utf8");
+    let passwords = JSON.parse(passwordsJSON);
+    delete passwords[key];
+    fs.writeFileSync("db.json", JSON.stringify(passwords, null, 2)); // db.json formatierung
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 if (command === "get") {
