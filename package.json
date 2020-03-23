@@ -1,0 +1,27 @@
+{
+  "name": "cryptoMan",
+  "version": "1.0.0",
+  "description": "Passwords manager",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EraAmate/cryptoMan.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EraAmate/cryptoMan/issues"
+  },
+  "homepage": "https://github.com/EraAmate/cryptoMan#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "nodemon": "^2.0.2",
+    "prettier": "^2.0.1"
+  }
+}
