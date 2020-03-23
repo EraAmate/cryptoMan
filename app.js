@@ -1,54 +1,12 @@
-const { readPasswords, writePasswords } = require("./lib/passwords");
 const [command, key, value] = process.argv.slice(2);
-
-function get() {
-  console.log("Called GET", key);
-  // Read and log db.json
-
-  try {
-    const passwords = readPasswords();
-    console.log(key, passwords[key]);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-function set() {
-  console.log("Called SET", key, value);
-
-  // READ dbJSON + update by key
-  const content = { content };
-
-  try {
-    const passwords = readPasswords();
-
-    // UPDATE
-    passwords[key] = value;
-    //WRITE DB.JSON
-    writePasswords(passwords);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-function unset() {
-  console.log("Called SET", key, value);
-  try {
-    const passwords = readPasswords();
-
-    delete passwords[key];
-    writePasswords(passwords);
-  } catch (error) {
-    console.error(error);
-  }
-}
+const { get, set, unset } = require("./lib/commands");
 
 if (command === "get") {
-  get();
+  get(key);
 } else if (command === "set") {
-  set();
+  set(key, value);
 } else if (command === "unset") {
-  unset();
+  unset(key, value);
 } else {
   console.error("Unknown command");
 }
