@@ -33,21 +33,27 @@ function set() {
     let passwords = JSON.parse(passwordsJSON);
     // UPDATE
     passwords[key] = value;
-
+    //WRITE DB.JSON
     fs.writeFileSync("db.json", JSON.stringify(passwords, null, 2)); // db.json formatierung
-
-    //     passwordsJSON = fs.writeFileSync("db.json", content);
-    //     passwords = JSON.stringify(passwordsJSON);
-    //     console.log(key, passwords[value]);
   } catch (error) {
     console.error(error);
   }
+}
+
+function unset() {
+  let passwordsJSON = fs.readFileSync("db.json", "utf8");
+  let passwords = JSON.parse(passwordsJSON);
+  console.log(passwords);
+  delete passwords[key];
+  console.log(passwords);
 }
 
 if (command === "get") {
   get();
 } else if (command === "set") {
   set();
+} else if (command === "unset") {
+  unset();
 } else {
   console.error("Unknown command");
 }
