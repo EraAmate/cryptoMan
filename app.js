@@ -1,18 +1,12 @@
 const [command, key, value] = process.argv.slice(2);
+const { get, set, unset } = require("./lib/commands");
 
-function get() {
-  console.log("Called GET", key);
-  // Read and log db.json
-  console.log("db");
-}
-
-function set() {
-  console.log("Called SET", key, value);
-}
 if (command === "get") {
-  get();
+  get(key);
 } else if (command === "set") {
-  set();
+  set(key, value);
+} else if (command === "unset") {
+  unset(key, value);
 } else {
   console.error("Unknown command");
 }
