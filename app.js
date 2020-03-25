@@ -1,15 +1,20 @@
 const [command, key] = process.argv.slice(2);
 const { askForPassword } = require("./lib/questions");
-const { get, set, unset } = require("./lib/commands");
+const { get, set, unset, reset } = require("./lib/commands");
 
 const { askForMasterPassword } = require("./lib/questions");
 const { readMasterPassword } = require("./lib/passwords");
+const { verifyHash } = require("./lib/crypto");
 
 async function run() {
   const answeredMasterPassword = await askForMasterPassword();
+
+  if (command === "reset") {
+    return reset(answeredMasterPassword);
+  }
   const masterPassword = readMasterPassword();
 
-  if (answeredMasterPassword !== masterPassword) {
+  if (!verifyHash(answeredMasterPassword, masterPassword)) {
     console.error("Fuck off!");
     return;
   }
