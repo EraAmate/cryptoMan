@@ -12,7 +12,8 @@ async function run() {
     await connect();
     const answeredMasterPassword = await askForMasterPassword();
     if (command === "reset") {
-      return reset(answeredMasterPassword);
+      await reset(answeredMasterPassword);
+      return;
     }
 
     const masterPassword = await getMasterPassword();
