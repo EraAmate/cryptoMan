@@ -3,31 +3,39 @@ const { askForPassword } = require("./lib/questions");
 const { get, set, unset, reset } = require("./lib/commands");
 
 const { askForMasterPassword } = require("./lib/questions");
-const { readMasterPassword } = require("./lib/passwords");
+const { getMasterPassword } = require("./lib/queries");
+const { connect, close } = require("./lib/db");
 const { verifyHash } = require("./lib/crypto");
 
 async function run() {
-  const answeredMasterPassword = await askForMasterPassword();
+  try {
+    await connect();
+    const answeredMasterPassword = await askForMasterPassword();
+    if (command === "reset") {
+      return reset(answeredMasterPassword);
+    }
 
-  if (command === "reset") {
-    return reset(answeredMasterPassword);
-  }
-  const masterPassword = readMasterPassword();
+    const masterPassword = await getMasterPassword();
 
-  if (!verifyHash(answeredMasterPassword, masterPassword)) {
-    console.error("Fuck off!");
-    return;
-  }
+    if (!verifyHash(answeredMasterPassword, masterPassword)) {
+      console.error("Fuck off!");
+      return;
+    }
 
-  if (command === "get") {
-    get(key);
-  } else if (command === "set") {
-    const password = await askForPassword(key);
-    set(key, password);
-  } else if (command === "unset") {
-    unset(key);
-  } else {
-    console.error("Unknown command");
+    if (command === "get") {
+      get(key, masterPassword);
+    } else if (command === "set") {
+      const password = await askForPassword(key);
+      set(key, password, masterPassword);
+    } else if (command === "unset") {
+      unset(key);
+    } else {
+      console.error("Unknown command");
+    }
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await close();
   }
 }
 
